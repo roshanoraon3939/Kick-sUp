@@ -2,11 +2,12 @@ import { useState, useEffect } from "react";
 import { CssBaseline } from "@material-ui/core";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { commerce } from "./lib/commerce";
-import NavBar from "./components/NavBar";
-import Footer from "./components/Footer";
-import Products from "./components/Products";
-import Basket from "./components/Basket";
-import Checkout from "./components/Checkout";
+
+import NavBar from "./component/Navbar";
+import Products from "./component/Products";
+import Basket from "./component/Basket";
+import Footer from "./component/Footer";
+import Checkout from "./component/CheckoutForm/Checkout/Checkout";
 
 const App = () => {
   const [products, setProducts] = useState([]);
@@ -72,6 +73,8 @@ const App = () => {
     fetchBasketData();
   }, []);
 
+  console.log(basketData);
+
   return (
     <Router>
       <div>
@@ -96,13 +99,8 @@ const App = () => {
               RemoveItemFromBasket={RemoveItemFromBasket}
             />
           </Route>
-          <Route exact path="/checkout">
-            <Checkout
-              orderInfo={orderInfo}
-              orderError={orderError}
-              basketData={basketData}
-              handleCheckout={handleCheckout}
-            />
+           <Route path="/checkout" exact>
+            <Checkout cart={basketData} order={orderInfo} onCaptureCheckout={handleCheckout} error={orderError} />
           </Route>
         </Switch>
         <Footer />
